@@ -35,3 +35,5 @@ let g:python_highlight_all=1
 
 " CoC extensions
 let g:coc_global_extensions = ['coc-tsserver']
+inoremap <expr> <cr> coc#pum#visible() ? coc#pum#confirm() : "\<CR>"
+
