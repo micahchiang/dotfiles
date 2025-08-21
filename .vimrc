@@ -13,6 +13,8 @@ Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'sainnhe/everforest'
 
+Plug 'preservim/nerdtree'
+
 " lsp
 Plug 'neoclide/coc.nvim', { 'branch': 'release'}
 
