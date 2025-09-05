@@ -6,6 +6,8 @@ set expandtab
 set smartindent
 set background=dark
 
+syntax enable
+
 
 call plug#begin('~/.vim/plugged')
 
