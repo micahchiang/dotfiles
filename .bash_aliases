@@ -6,4 +6,5 @@ alias gpu="git push"
 alias gs="git status"
 alias gcb="git checkout -b $1"
 alias docker-compose="docker compose"
+alias ls="ls -a"
 
