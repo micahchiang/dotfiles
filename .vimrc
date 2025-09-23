@@ -21,11 +21,16 @@ Plug 'neoclide/coc.nvim', { 'branch': 'release'}
 " linting and syntax
 Plug 'dense-analysis/ale'
 Plug 'prettier/vim-prettier', { 'do': 'npm install --legacy-peer-deps', 'for': ['javascript', 'typescript', 'css', 'json', 'markdown'] }
+
 " ts/js plugins
 Plug 'pangloss/vim-javascript'
 Plug 'leafgarland/typescript-vim'
 Plug 'maxmellon/vim-jsx-pretty'
 Plug 'quramy/tsuquyomi'
+
+" svelte
+Plug 'othree/html5.vim'
+Plug 'evanleck/vim-svelte', {'branch': 'main'}
 
 call plug#end()
 
