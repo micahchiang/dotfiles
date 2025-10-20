@@ -21,6 +21,7 @@ Plug 'neoclide/coc.nvim', { 'branch': 'release'}
 " linting and syntax
 Plug 'dense-analysis/ale'
 Plug 'prettier/vim-prettier', { 'do': 'npm install --legacy-peer-deps', 'for': ['javascript', 'typescript', 'css', 'json', 'markdown'] }
+Plug 'jiangmiao/auto-pairs'
 
 " ts/js plugins
 Plug 'pangloss/vim-javascript'
