@@ -5,6 +5,7 @@ set shiftwidth=4
 set expandtab
 set smartindent
 set background=dark
+set clipboard+=unnamedplus
 
 syntax enable
 
