@@ -23,17 +23,14 @@ Plug 'prettier/vim-prettier', { 'do': 'npm install --legacy-peer-deps', 'for': [
 Plug 'jiangmiao/auto-pairs'
 
 " ts/js plugins
-Plug 'pangloss/vim-javascript'
-Plug 'leafgarland/typescript-vim'
 Plug 'maxmellon/vim-jsx-pretty'
 
 " svelte
-Plug 'othree/html5.vim'
 Plug 'evanleck/vim-svelte', {'branch': 'main'}
 
 call plug#end()
 
-" Color scheme
+" Color schemes
 colorscheme everforest
 " let g:seoul256_background = 236
 " color seoul256
@@ -55,14 +52,24 @@ autocmd BufWritePre *.js,*.ts,*.jsx,*.tsx PrettierAsync
 " LSP settings
 " Tell lspconfig to initialize the svelte server
 lua << EOF
+vim.diagnostic.config({virtual_text=true})
 vim.cmd[[set completeopt+=menuone,noselect,popup]]
+-- typescript-tools.nvim is faster than the ts language server. github.com/pmizio/typescript-tools.nvim
+
+-- ty settings. More here https://docs.astral.sh/ty/reference/editor-settings/
 vim.lsp.config['ty'] = {
     settings = {
         runtime = {
             version = "LuaJIT",
             },
+        showSyntaxErrors = true,
         inlayHints = {
-            variableTypes = true
+            variableTypes = true,
+            callArgumentNames = true,
+            },
+        completions = {
+            autoImport = true,
+            completeFunctionParentheses = true,
             }
         },
     on_attach = function(client, bufnr)
@@ -84,6 +91,8 @@ vim.lsp.config['svelte'] = {
         })
      end,
     }
-vim.lsp.enable({'ty', 'svelte'})
+vim.lsp.codelens.enable(true)
 vim.lsp.inlay_hint.enable(true)
+vim.lsp.enable({'ty', 'svelte'})
+vim.lsp.log.set_level('ERROR')
 EOF
