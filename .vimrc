@@ -4,6 +4,7 @@ set tabstop=4 softtabstop=4
 set shiftwidth=4
 set expandtab
 set smartindent
+set background=dark
 " set clipboard+=unnamedplus
 
 syntax enable
@@ -42,17 +43,16 @@ let mapleader = " "
 nnoremap <leader>pv :Vex <CR>
 
 " linting and syntax settings
-let b:ale_fixers = ['prettier', 'eslint']
-let g:ale_fix_on_save = 1
-let g:prettier#autoformat = 1
-let g:python_highlight_all=1
 " format on save with Prettier
-autocmd BufWritePre *.js,*.ts,*.jsx,*.tsx PrettierAsync
+augroup prettier_fmt
+    autocmd!
+    autocmd BufWritePre *.js,*.ts,*.jsx,*.tsx PrettierAsync
+augroup END
 
 " LSP settings
 " Tell lspconfig to initialize the svelte server
 lua << EOF
-vim.diagnostic.config({virtual_text=true})
+vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float)
 vim.cmd[[set completeopt+=menuone,noselect,popup]]
 -- typescript-tools.nvim is faster than the ts language server. github.com/pmizio/typescript-tools.nvim
 
