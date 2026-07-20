@@ -4,17 +4,18 @@ set tabstop=4 softtabstop=4
 set shiftwidth=4
 set expandtab
 set smartindent
-set background=dark
 " set clipboard+=unnamedplus
+let mapleader = " "
 
 syntax enable
 
+"~~~~~~~~~ Plugins ~~~~~~~~~~~~
 
 call plug#begin('~/.vim/plugged')
 
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
-"Plug 'junegunn/seoul256.vim'
+Plug 'junegunn/seoul256.vim'
 
 Plug 'sainnhe/everforest'
 
@@ -31,13 +32,24 @@ Plug 'evanleck/vim-svelte', {'branch': 'main'}
 
 call plug#end()
 
-" Color schemes
-colorscheme everforest
-" let g:seoul256_background = 236
+"~~~~~~~~~ Color schemes ~~~~~~~~~~~
+
+" colorscheme everforest
+
+" Seoul Dark settings
+" range: 233(darkest) - 239(lightest)
+" let g:seoul256_background = 234
 " color seoul256
 " set background=dark
 
-let mapleader = " "
+" Seoul Light settings
+" range: 252(darkest) - 256(lightest)
+let g:seoul256_background = 256
+color seoul256
+set background=light
+
+"~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 
 " opens file explorer in vertical split
 nnoremap <leader>pv :Vex <CR>
@@ -49,7 +61,7 @@ augroup prettier_fmt
     autocmd BufWritePre *.js,*.ts,*.jsx,*.tsx PrettierAsync
 augroup END
 
-" LSP settings
+"~~~~~~~~~~ LSP settings ~~~~~~~~~~~~
 " Tell lspconfig to initialize the svelte server
 lua << EOF
 vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float)
@@ -81,16 +93,16 @@ vim.lsp.config['ty'] = {
         })
      end,
     }
-vim.lsp.config['svelte'] = {
-    on_attach = function(client, bufnr)
-     vim.lsp.completion.enable(true, client.id, bufnr, {
-        autotrigger = true,
-        convert = function(item)
-         return { abbr = item.label:gsub('%b()', '') }
-        end,
-        })
-     end,
-    }
+-- vim.lsp.config['svelte'] = {
+--     on_attach = function(client, bufnr)
+--      vim.lsp.completion.enable(true, client.id, bufnr, {
+--         autotrigger = true,
+--         convert = function(item)
+--          return { abbr = item.label:gsub('%b()', '') }
+--         end,
+--         })
+--      end,
+--     }
 vim.lsp.codelens.enable(true)
 vim.lsp.inlay_hint.enable(true)
 vim.lsp.enable({'ty', 'svelte'})
