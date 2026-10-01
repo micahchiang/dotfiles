@@ -37,6 +37,10 @@ Plug 'maxmellon/vim-jsx-pretty'
 " svelte
 Plug 'evanleck/vim-svelte', {'branch': 'main'}
 
+" treesitter (better highlighting + needed for autotag)
+Plug 'nvim-treesitter/nvim-treesitter', { 'branch': 'main', 'do': ':TSUpdate' }
+Plug 'windwp/nvim-ts-autotag'
+
 call plug#end()
 
 "~~~~~~~~~ Color schemes ~~~~~~~~~~~
@@ -93,8 +97,9 @@ require('blink.cmp').setup({
         nerd_font_variant = 'mono',
         },
     completion = {
-        documentation = { auto_show = false },
+        documentation = { auto_show = true, auto_show_delay_ms = 200 },
         },
+    signature = { enabled = true },
     sources = {
         default = { 'lsp', 'path', 'snippets', 'buffer' },
         },
@@ -106,7 +111,6 @@ require('blink.cmp').setup({
 ----------------------------------------------------------------------
 -- LSP servers
 ----------------------------------------------------------------------
--- typescript-tools.nvim is faster than the ts language server. github.com/pmizio/typescript-tools.nvim
 -- note: blink.cmp automatically merges its LSP capabilities into
 -- vim.lsp.config('*', ...) on load (nvim 0.11+), so no manual
 -- capabilities/on_attach wiring is needed here for completion to work.
@@ -128,6 +132,31 @@ vim.lsp.config['ty'] = {
 
 vim.lsp.codelens.enable(true)
 vim.lsp.inlay_hint.enable(true)
-vim.lsp.enable({'ty', 'svelte'})
+vim.lsp.enable({
+    'ty', 'svelte',
+    'vtsls', 'html', 'cssls', 'jsonls', 'eslint', 'emmet_language_server',
+    })
+
+-- VS Code-style squiggles + inline messages
+vim.diagnostic.config({ virtual_text = true })
+
+-- gd isn't mapped to LSP by default
+vim.keymap.set('n', 'gd', vim.lsp.buf.definition)
+
+----------------------------------------------------------------------
+-- treesitter + auto close/rename tags
+----------------------------------------------------------------------
+-- pcall so a fresh install (before :PlugInstall) doesn't error on startup
+local ok_ts, ts = pcall(require, 'nvim-treesitter')
+if ok_ts then
+    ts.install({
+        'html', 'css', 'javascript', 'typescript', 'tsx', 'svelte', 'json', 'python', 'lua',
+        })
+end
+vim.api.nvim_create_autocmd('FileType', {
+    callback = function() pcall(vim.treesitter.start) end,
+    })
+local ok_tag, autotag = pcall(require, 'nvim-ts-autotag')
+if ok_tag then autotag.setup() end
 vim.lsp.log.set_level('ERROR')
 EOF
